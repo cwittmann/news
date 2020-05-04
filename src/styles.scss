@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  background: white;
+  font-family: "Colus", serif;
+}
+
+@font-face {
+  font-family: "Colus";
+  src: url(./assets/fonts/colus.ttf) format("truetype");
+}
