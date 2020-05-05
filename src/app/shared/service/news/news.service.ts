@@ -13,7 +13,7 @@ export class NewsService {
     private databaseService: DatabaseService
   ) {
     databaseService.onInitialized.subscribe(async () => {
-      // await this.getNewsFromApi();
+      //await this.getNewsFromApi();
       this.getNewsFromDB();
     });
   }
@@ -21,7 +21,7 @@ export class NewsService {
   async getNewsFromApi() {
     let data = await this.httpClient
       .get(
-        `https://newsapi.org/v2/everything?q=nuremberg&lang=en&pageSize=100&apiKey=${this.apiKey}`
+        `https://newsapi.org/v2/top-headlines?country=us&pageSize=100&apiKey=${this.apiKey}`
       )
       .toPromise();
 

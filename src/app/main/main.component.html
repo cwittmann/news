@@ -1,6 +1,9 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="article col-sm-6 col-lg-3" *ngFor="let article of articles">
+    <div
+      class="article col-xs-6 col-md-5 col-lg-3"
+      *ngFor="let article of articles"
+    >
       <div class="image">
         <img [src]="article.urlToImage" />
       </div>
