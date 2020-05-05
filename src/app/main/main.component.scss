@@ -14,7 +14,7 @@ h2 {
 }
 
 .image {
-  margin-top: 3vw;
+  margin-top: 0.5vw;
   border-bottom: 0.1vw solid #e9b7b7;
   object-fit: cover;
 }
@@ -32,13 +32,13 @@ img {
 
 .description {
   font-size: calc(8px + 0.5vw);
-  padding-bottom: 0.5vw;
-  border-bottom: 0.1vw solid #e9b7b7;
 }
 
 .content {
   font-size: 1vw;
   font-size: calc(8px + 0.8vw);
+  padding-top: 0.5vw;
+  border-top: 0.1vw solid #e9b7b7;
 }
 
 a {
