@@ -8,12 +8,37 @@ import { Article } from '../shared/model/article';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  articles: Article[];
+  articles: Article[] = [];
 
   constructor(private databaseService: DatabaseService) {
     this.databaseService.onLoadedFromDB.subscribe((articles: Article[]) => {
-      this.articles = articles;
+      for (let article of articles) {
+        if (
+          article.urlToImage == undefined ||
+          article.description == undefined ||
+          article.description?.length < 50 ||
+          article.content == undefined ||
+          article.content.length < 100
+        ) {
+          continue;
+        }
+
+        this.adjustArticle(article);
+        this.articles.push(article);
+      }
     });
+  }
+
+  adjustArticle(article: Article) {
+    if (
+      article.author?.length > 20 ||
+      !article.author?.match(/^[a-zA-Z\s]+$/)
+    ) {
+      article.author = undefined;
+    }
+
+    let end = article.content?.indexOf('[');
+    article.content = article.content?.substring(0, end);
   }
 
   ngOnInit(): void {}

@@ -3,6 +3,48 @@ h1 {
   color: darkred;
 }
 
+h2 {
+  font-size: calc(12px + 1vw);
+  font-family: "Bree Serif", serif;
+  color: #385678;
+}
+
 .article {
-  margin: 1vw;
+  width: 100%;
+  text-align: justify;
+  font-family: "Libre Baskerville", serif;
+}
+
+.image {
+  margin-top: 5vw;
+  object-fit: cover;
+}
+
+img {
+  height: 15vw;
+  width: 100%;
+  object-fit: cover;
+}
+
+.author {
+  font-weight: bold;
+  color: #792525;
+}
+
+.description {
+  font-size: calc(8px + 0.5vw);
+}
+
+.content {
+  font-size: 1vw;
+  font-size: calc(8px + 0.8vw);
+}
+
+a {
+  font-weight: bold;
+  color: #792525;
+}
+
+a:hover {
+  cursor: pointer;
 }
