@@ -6,4 +6,5 @@ export class Article {
   urlToImage: String;
   publishedAt: String;
   content: String;
+  category: String;
 }
