@@ -1,4 +1,5 @@
 export class Article {
+  _id: String;
   author: String;
   title: String;
   description: String;

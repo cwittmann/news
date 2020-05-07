@@ -4,6 +4,9 @@ h1 {
   font-family: "Cormorant", serif;
   font-size: calc(15px + 1vw);
 }
+h1:hover {
+  cursor: pointer;
+}
 
 .menu {
   border-top: 0.1vw solid #792525;

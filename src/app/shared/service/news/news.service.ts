@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatabaseService } from '../database/database.service';
+import { Article } from '../../model/article';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class NewsService {
   ) {
     databaseService.onInitialized.subscribe(async () => {
       //await this.getNewsFromApi();
-      this.getNewsFromDB();
+      //await this.getNewsFromServer();
+      this.getNewsFromIndexedDB();
     });
   }
 
@@ -29,7 +31,16 @@ export class NewsService {
     this.databaseService.storeArticlesInDB(articles);
   }
 
-  async getNewsFromDB() {
+  async getNewsFromIndexedDB() {
     this.databaseService.requestArticlesFromDB();
+  }
+
+  async getNewsFromServer() {
+    let data = await this.httpClient
+      .get('http://localhost:8000/api/articles')
+      .toPromise();
+
+    let articles = data as Article[];
+    this.databaseService.storeArticlesInDB(articles);
   }
 }

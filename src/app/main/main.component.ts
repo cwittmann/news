@@ -9,25 +9,9 @@ import { Article } from '../shared/model/article';
 })
 export class MainComponent implements OnInit {
   articles: Article[] = [];
+  subscription: any;
 
-  constructor(private databaseService: DatabaseService) {
-    this.databaseService.onLoadedFromDB.subscribe((articles: Article[]) => {
-      for (let article of articles) {
-        if (
-          article.urlToImage == undefined ||
-          article.description == undefined ||
-          article.description?.length < 50 ||
-          article.content == undefined ||
-          article.content.length < 100
-        ) {
-          continue;
-        }
-
-        this.adjustArticle(article);
-        this.articles.push(article);
-      }
-    });
-  }
+  constructor(private databaseService: DatabaseService) {}
 
   adjustArticle(article: Article) {
     if (
@@ -37,31 +21,38 @@ export class MainComponent implements OnInit {
       article.author = undefined;
     }
 
-    let randomNumber = Math.floor(Math.random() * Math.floor(6));
-    switch (randomNumber) {
-      case 0:
-        article.category = 'Business';
-        break;
-      case 1:
-        article.category = 'Entertainment';
-        break;
-      case 2:
-        article.category = 'Health';
-        break;
-      case 3:
-        article.category = 'International';
-        break;
-      case 4:
-        article.category = 'Politics';
-        break;
-      case 5:
-        article.category = 'Sports';
-        break;
-    }
-
     let end = article.content?.indexOf('[');
     article.content = article.content?.substring(0, end);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription = this.databaseService.onLoadedArticlesFromDB.subscribe(
+      (articles: Article[]) => {
+        this.articles = [];
+        for (let article of articles) {
+          if (
+            article.urlToImage == undefined ||
+            article.description == undefined ||
+            article.description?.length < 50 ||
+            article.content == undefined ||
+            article.content.length < 100
+          ) {
+            continue;
+          }
+
+          this.adjustArticle(article);
+          this.articles.push(article);
+        }
+        console.log(this.articles);
+      }
+    );
+
+    this.databaseService.requestArticlesFromDB();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

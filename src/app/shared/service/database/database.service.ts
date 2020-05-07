@@ -7,13 +7,15 @@ import { openDB, deleteDB, wrap, unwrap } from 'idb';
 })
 export class DatabaseService {
   onInitialized: EventEmitter<Boolean>;
-  onLoadedFromDB: EventEmitter<Article[]>;
+  onLoadedArticlesFromDB: EventEmitter<Article[]>;
+  onLoadedArticleFromDB: EventEmitter<Article>;
 
   db: any;
 
   constructor() {
     this.onInitialized = new EventEmitter();
-    this.onLoadedFromDB = new EventEmitter();
+    this.onLoadedArticlesFromDB = new EventEmitter();
+    this.onLoadedArticleFromDB = new EventEmitter();
   }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class DatabaseService {
 
     dbReq.onupgradeneeded = function (event: any) {
       db = event.target.result;
-      db.createObjectStore('article', { autoIncrement: true });
+      db.createObjectStore('article', { keyPath: '_id', autoIncrement: true });
     };
 
     dbReq.onsuccess = function (event: any) {
@@ -68,7 +70,22 @@ export class DatabaseService {
       .objectStore('article')
       .getAll();
 
-    this.onLoadedFromDB.emit(articles);
+    this.onLoadedArticlesFromDB.emit(articles);
     console.log('All articles retrieved from IndexedDB.');
+  }
+
+  public async requestArticleFromDB(_id) {
+    const db = await openDB('newsDB', 2);
+
+    const transaction = db.transaction('article', 'readwrite');
+    const store = await transaction.objectStore('article');
+
+    const article = await db
+      .transaction('article')
+      .objectStore('article')
+      .get(_id);
+
+    this.onLoadedArticleFromDB.emit(article);
+    console.log('Article retrieved from IndexedDB: ' + _id);
   }
 }
