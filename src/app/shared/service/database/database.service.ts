@@ -60,6 +60,27 @@ export class DatabaseService {
     };
   }
 
+  public storeArticleInDB(article) {
+    let indexedDB = window.indexedDB;
+    let open = indexedDB.open('newsDB', 2);
+
+    open.onsuccess = async function () {
+      let db = open.result;
+      let transaction = db.transaction('article', 'readwrite');
+      let store = transaction.objectStore('article');
+
+      await store.delete(article._id);
+      store.add(article);
+
+      transaction.oncomplete = function () {
+        console.log('Article updated in IndexedDB: ' + article._id);
+      };
+      transaction.onerror = function (event: any) {
+        alert('Error updating article ' + event.target.errorCode);
+      };
+    };
+  }
+
   public async requestArticlesFromDB() {
     const db = await openDB('newsDB', 2);
 

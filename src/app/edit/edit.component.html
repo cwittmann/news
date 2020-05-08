@@ -1,5 +1,13 @@
 <div class="container">
   <form [formGroup]="form" (ngSubmit)="submit()">
+    <input
+      class="form-control"
+      id="_id"
+      formControlName="_id"
+      type="text"
+      [ngModel]="article._id"
+      hidden
+    />
     <div class="formGroup">
       <label for="author">Author</label>
       <input

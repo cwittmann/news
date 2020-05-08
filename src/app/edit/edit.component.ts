@@ -24,18 +24,25 @@ export class EditComponent implements OnInit {
     return this.form.controls;
   }
 
-  submit() {}
+  submit() {
+    this.form.markAllAsTouched();
+    this.article = this.form.value as Article;
+    this.databaseService.storeArticleInDB(this.article);
+  }
 
   async ngOnInit(): Promise<void> {
     this._id = this.route.snapshot.params['id'];
     this.subscription = this.databaseService.onLoadedArticleFromDB.subscribe(
       (article: Article) => {
         this.article = article;
+        this.form.markAllAsTouched();
+        this.form.setValue(this.article);
       }
     );
     this.databaseService.requestArticleFromDB(this._id);
 
     this.form = new FormGroup({
+      _id: new FormControl(''),
       author: new FormControl(''),
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
@@ -44,6 +51,9 @@ export class EditComponent implements OnInit {
       publishedAt: new FormControl(''),
       content: new FormControl('', [Validators.required]),
       category: new FormControl('', [Validators.required]),
+      createdAt: new FormControl(''),
+      updatedAt: new FormControl(''),
+      __v: new FormControl(''),
     });
   }
   ngOnDestory() {
