@@ -43,7 +43,6 @@ export class MainComponent implements OnInit {
           this.adjustArticle(article);
           this.articles.push(article);
         }
-        console.log(this.articles);
       }
     );
 

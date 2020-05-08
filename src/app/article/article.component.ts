@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from '../shared/service/database/database.service';
 import { Article } from '../shared/model/article';
 
@@ -15,8 +15,13 @@ export class ArticleComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private router: Router
   ) {}
+
+  edit(_id) {
+    this.router.navigate(['/edit', _id]);
+  }
 
   async ngOnInit(): Promise<void> {
     this._id = this.route.snapshot.params['id'];
