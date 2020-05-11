@@ -50,6 +50,9 @@ export class MainComponent implements OnInit {
           if (this.category != undefined && article.category != this.category) {
             continue;
           }
+          if (!article.content) {
+            continue;
+          }
 
           this.adjustArticle(article);
           this.articles.push(article);
