@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  Renderer2,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from '../shared/service/database/database.service';
 import { Article } from '../shared/model/article';
@@ -13,14 +19,16 @@ export class ArticleComponent implements OnInit {
   article: Article;
   subscription: any;
 
+  @ViewChild('content') content: ElementRef;
+
   constructor(
     private route: ActivatedRoute,
     private databaseService: DatabaseService,
-    private router: Router
+    private renderer: Renderer2
   ) {}
 
-  edit(_id) {
-    this.router.navigate(['/edit', _id]);
+  save(_id) {
+    this.databaseService.storeArticleInDB(this.article);
   }
 
   async ngOnInit(): Promise<void> {
@@ -32,9 +40,24 @@ export class ArticleComponent implements OnInit {
     );
     this.databaseService.requestArticleFromDB(this._id);
   }
-  ngOnDestory() {
+
+  ngAfterViewChecked() {
+    this.resizeElement(this.content);
+  }
+
+  ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  resizeElement(elementRef: ElementRef) {
+    let scrollHeight = elementRef.nativeElement.scrollHeight;
+
+    this.renderer.setStyle(
+      this.content.nativeElement,
+      'height',
+      scrollHeight + 'px'
+    );
   }
 }

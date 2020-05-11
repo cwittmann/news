@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../shared/service/database/database.service';
 import { Article } from '../shared/model/article';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -9,9 +10,18 @@ import { Article } from '../shared/model/article';
 })
 export class MainComponent implements OnInit {
   articles: Article[] = [];
-  subscription: any;
+  category: String;
+  articleSubscription: any;
 
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe((params) => {
+      this.ngOnDestroy();
+      this.ngOnInit();
+    });
+  }
 
   adjustArticle(article: Article) {
     if (
@@ -26,17 +36,16 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.databaseService.onLoadedArticlesFromDB.subscribe(
+    this.category = this.route.snapshot.params['category'];
+
+    this.articleSubscription = this.databaseService.onLoadedArticlesFromDB.subscribe(
       (articles: Article[]) => {
         this.articles = [];
         for (let article of articles) {
-          if (
-            article.urlToImage == undefined ||
-            article.description == undefined ||
-            article.description?.length < 50 ||
-            article.content == undefined ||
-            article.content.length < 100
-          ) {
+          if (article.category == 'Health') {
+          }
+
+          if (this.category != undefined && article.category != this.category) {
             continue;
           }
 
@@ -50,8 +59,8 @@ export class MainComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.articleSubscription) {
+      this.articleSubscription.unsubscribe();
     }
   }
 }
