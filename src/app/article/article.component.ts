@@ -19,6 +19,8 @@ export class ArticleComponent implements OnInit {
   article: Article;
   subscription: any;
 
+  @ViewChild('title') title: ElementRef;
+  @ViewChild('description') description: ElementRef;
   @ViewChild('content') content: ElementRef;
 
   constructor(
@@ -42,6 +44,8 @@ export class ArticleComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
+    this.resizeElement(this.title);
+    this.resizeElement(this.description);
     this.resizeElement(this.content);
   }
 
@@ -55,7 +59,7 @@ export class ArticleComponent implements OnInit {
     let scrollHeight = elementRef.nativeElement.scrollHeight;
 
     this.renderer.setStyle(
-      this.content.nativeElement,
+      elementRef.nativeElement,
       'height',
       scrollHeight + 'px'
     );

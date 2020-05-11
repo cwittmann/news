@@ -11,6 +11,7 @@
         <img [src]="article.urlToImage" />
       </div>
       <textarea
+        #title
         class="title"
         [(ngModel)]="article.title"
         contenteditable="true"
@@ -24,6 +25,7 @@
         (input)="save(article._id)"
       />
       <textarea
+        #description
         class="description"
         [(ngModel)]="article.description"
         contenteditable="true"
