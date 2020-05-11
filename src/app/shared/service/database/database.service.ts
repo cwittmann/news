@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Article } from '../../model/article';
-import { openDB, deleteDB, wrap, unwrap } from 'idb';
+import { openDB } from 'idb';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,7 @@ export class DatabaseService {
   onInitialized: EventEmitter<Boolean>;
   onLoadedArticlesFromDB: EventEmitter<Article[]>;
   onLoadedArticleFromDB: EventEmitter<Article>;
+  onStoredArticleInDB: EventEmitter<Article>;
 
   db: any;
 
@@ -16,6 +17,7 @@ export class DatabaseService {
     this.onInitialized = new EventEmitter();
     this.onLoadedArticlesFromDB = new EventEmitter();
     this.onLoadedArticleFromDB = new EventEmitter();
+    this.onStoredArticleInDB = new EventEmitter();
   }
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class DatabaseService {
     };
   }
 
-  public storeArticlesInDB(articles) {
+  public async storeArticlesInDB(articles) {
     let indexedDB = window.indexedDB;
     let open = indexedDB.open('newsDB', 2);
 
@@ -60,25 +62,17 @@ export class DatabaseService {
     };
   }
 
-  public storeArticleInDB(article) {
-    let indexedDB = window.indexedDB;
-    let open = indexedDB.open('newsDB', 2);
+  public async storeArticleInDB(article: Article) {
+    const db = await openDB('newsDB', 2);
+    let transaction = db.transaction('article', 'readwrite');
+    let store = await transaction.objectStore('article');
 
-    open.onsuccess = async function () {
-      let db = open.result;
-      let transaction = db.transaction('article', 'readwrite');
-      let store = transaction.objectStore('article');
+    store.put(article);
 
-      await store.delete(article._id);
-      store.add(article);
-
-      transaction.oncomplete = function () {
-        console.log('Article updated in IndexedDB: ' + article._id);
-      };
-      transaction.onerror = function (event: any) {
-        alert('Error updating article ' + event.target.errorCode);
-      };
-    };
+    transaction.oncomplete = async function () {
+      this.onStoredArticleInDB.emit(article);
+      console.log('Article stored in IndexedDB: ' + article._id);
+    }.bind(this);
   }
 
   public async requestArticlesFromDB() {

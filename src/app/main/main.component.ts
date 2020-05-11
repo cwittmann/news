@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../shared/service/database/database.service';
 import { Article } from '../shared/model/article';
 import { ActivatedRoute } from '@angular/router';
+import { NewsService } from '../shared/service/news/news.service';
 
 @Component({
   selector: 'app-main',

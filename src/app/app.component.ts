@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NewsService } from './shared/service/news/news.service';
 import { DatabaseService } from './shared/service/database/database.service';
+import { NewsService } from './shared/service/news/news.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +11,12 @@ export class AppComponent {
   title = 'news';
 
   constructor(
-    private newsService: NewsService,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private newsService: NewsService
   ) {}
 
   ngOnInit(): void {
     this.databaseService.ngOnInit();
+    this.newsService.ngOnInit();
   }
 }
