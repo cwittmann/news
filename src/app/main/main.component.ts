@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  articles: Article[] = [];
+  articles: Article[];
   category: String;
   articleSubscription: any;
 
@@ -31,8 +31,12 @@ export class MainComponent implements OnInit {
       article.author = undefined;
     }
 
-    let end = article.content?.indexOf('[');
-    article.content = article.content?.substring(0, end);
+    let titleAndDescriptionLength =
+      article.title.length + article.description.length;
+    article.content = article.content?.substring(
+      0,
+      500 - titleAndDescriptionLength
+    );
   }
 
   ngOnInit(): void {
@@ -42,9 +46,6 @@ export class MainComponent implements OnInit {
       (articles: Article[]) => {
         this.articles = [];
         for (let article of articles) {
-          if (article.category == 'Health') {
-          }
-
           if (this.category != undefined && article.category != this.category) {
             continue;
           }

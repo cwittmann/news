@@ -27,7 +27,9 @@ export class ArticleComponent implements OnInit {
     private route: ActivatedRoute,
     private databaseService: DatabaseService,
     private renderer: Renderer2
-  ) {}
+  ) {
+    this.article = new Article();
+  }
 
   save(_id) {
     this.databaseService.storeArticleInDB(this.article);
