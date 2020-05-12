@@ -5,13 +5,11 @@
       *ngFor="let article of articles; let i = index"
       [attr.data-index]="i"
     >
-      <div *ngIf="i % 2 == 0" class="categoryImage">
+      <div class="categoryImage">
         {{ article.category }}
       </div>
-      <div *ngIf="i % 2 != 0" class="category">
-        {{ article.category }}
-      </div>
-      <div *ngIf="i % 2 == 0" class="image">
+
+      <div class="image">
         <a [routerLink]="['/article', article._id]">
           <img [src]="article.urlToImage" />
         </a>
@@ -22,10 +20,6 @@
       <p class="description">
         <span class="author" *ngIf="article.author">{{ article.author }} </span
         >{{ article.description }}
-      </p>
-      <p *ngIf="i % 2 != 0" class="content">
-        {{ article.content }}
-        <a class="link" [routerLink]="['/article', article._id]">... more</a>
       </p>
     </div>
   </div>

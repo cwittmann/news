@@ -36,7 +36,7 @@ export class MainComponent implements OnInit {
       article.title.length + article.description.length;
     article.content = article.content?.substring(
       0,
-      500 - titleAndDescriptionLength
+      1200 - titleAndDescriptionLength
     );
   }
 
