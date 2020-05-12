@@ -31,13 +31,6 @@ export class MainComponent implements OnInit {
     ) {
       article.author = undefined;
     }
-
-    let titleAndDescriptionLength =
-      article.title.length + article.description.length;
-    article.content = article.content?.substring(
-      0,
-      1200 - titleAndDescriptionLength
-    );
   }
 
   ngOnInit(): void {
