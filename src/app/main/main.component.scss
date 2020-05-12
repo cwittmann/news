@@ -1,8 +1,8 @@
 h2 {
-  font-size: calc(12px + 1vw);
+  font-size: calc(12px + 0.6vw);
   font-family: "Bree Serif", serif;
   color: #385678;
-  padding-bottom: 0.5vw;
+  padding: 0.5vw 0 0.5vw 0;
   border-bottom: 0.1vw solid #bdd5f1;
 }
 
@@ -18,7 +18,6 @@ h2:hover {
 }
 
 .image {
-  border-bottom: 0.1vw solid #e9b7b7;
   object-fit: cover;
 }
 
