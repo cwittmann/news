@@ -5,7 +5,7 @@
         class="categoryImage"
         [(ngModel)]="article.category"
         contenteditable="true"
-        (input)="save(article._id)"
+        (input)="save(article.id)"
       />
       <div class="image">
         <img [src]="article.urlToImage" />
@@ -15,28 +15,28 @@
         class="title"
         [(ngModel)]="article.title"
         contenteditable="true"
-        (input)="save(article._id)"
+        (input)="save(article.id)"
       ></textarea>
       <input
         *ngIf="article.author"
         class="author"
         [(ngModel)]="article.author"
         contenteditable="true"
-        (input)="save(article._id)"
+        (input)="save(article.id)"
       />
       <textarea
         #description
         class="description"
         [(ngModel)]="article.description"
         contenteditable="true"
-        (input)="save(article._id)"
+        (input)="save(article.id)"
       ></textarea>
       <textarea
         #content
         class="content"
         [(ngModel)]="article.content"
         contenteditable="true"
-        (input)="save(article._id)"
+        (input)="save(article.id)"
       ></textarea>
     </div>
   </div>

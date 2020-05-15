@@ -15,7 +15,7 @@ import { Article } from '../shared/model/article';
   styleUrls: ['./article.component.scss'],
 })
 export class ArticleComponent implements OnInit {
-  _id: String;
+  id: String;
   article: Article;
   subscription: any;
 
@@ -31,18 +31,18 @@ export class ArticleComponent implements OnInit {
     this.article = new Article();
   }
 
-  save(_id) {
+  save(id) {
     this.databaseService.storeArticleInDB(this.article);
   }
 
   async ngOnInit(): Promise<void> {
-    this._id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id'];
     this.subscription = this.databaseService.onLoadedArticleFromDB.subscribe(
       (article: Article) => {
         this.article = article;
       }
     );
-    this.databaseService.requestArticleFromDB(this._id);
+    this.databaseService.requestArticleFromDB(this.id);
   }
 
   ngAfterViewChecked() {

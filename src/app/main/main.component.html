@@ -10,12 +10,12 @@
       </div>
 
       <div class="image">
-        <a [routerLink]="['/article', article._id]">
+        <a [routerLink]="['/article', article.id]">
           <img [src]="article.urlToImage" />
         </a>
       </div>
       <h2>
-        <a [routerLink]="['/article', article._id]">{{ article.title }}</a>
+        <a [routerLink]="['/article', article.id]">{{ article.title }}</a>
       </h2>
       <p class="description">
         <span class="author" *ngIf="article.author">{{ article.author }} </span

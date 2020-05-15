@@ -26,7 +26,7 @@ export class DatabaseService {
 
     dbReq.onupgradeneeded = function (event: any) {
       db = event.target.result;
-      db.createObjectStore('article', { keyPath: '_id', autoIncrement: true });
+      db.createObjectStore('article', { keyPath: 'id', autoIncrement: true });
     };
 
     dbReq.onsuccess = function (event: any) {
@@ -71,7 +71,7 @@ export class DatabaseService {
 
     transaction.oncomplete = async function () {
       this.onStoredArticleInDB.emit(article);
-      console.log('Article stored in IndexedDB: ' + article._id);
+      console.log('Article stored in IndexedDB: ' + article.id);
     }.bind(this);
   }
 
@@ -89,7 +89,7 @@ export class DatabaseService {
     console.log('All articles retrieved from IndexedDB.');
   }
 
-  public async requestArticleFromDB(_id) {
+  public async requestArticleFromDB(id) {
     const db = await openDB('newsDB', 2);
 
     const transaction = db.transaction('article', 'readwrite');
@@ -98,9 +98,9 @@ export class DatabaseService {
     const article = await db
       .transaction('article')
       .objectStore('article')
-      .get(_id);
+      .get(id);
 
     this.onLoadedArticleFromDB.emit(article);
-    console.log('Article retrieved from IndexedDB: ' + _id);
+    console.log('Article retrieved from IndexedDB: ' + id);
   }
 }

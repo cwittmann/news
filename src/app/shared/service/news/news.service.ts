@@ -56,7 +56,7 @@ export class NewsService {
   }
 
   async saveArticleOnServer(article: Article) {
-    if (article._id.length != 24) {
+    if (article.id.length != 24) {
       await this.httpClient
         .post('http://localhost:8000/api/articles', article)
         .toPromise();
@@ -66,9 +66,9 @@ export class NewsService {
     }
 
     await this.httpClient
-      .put('http://localhost:8000/api/articles/' + article._id, article)
+      .put('http://localhost:8000/api/articles/' + article.id, article)
       .toPromise();
 
-    console.log('Article updated successfully in Server DB:' + article._id);
+    console.log('Article updated successfully in Server DB:' + article.id);
   }
 }
